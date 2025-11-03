@@ -1,0 +1,308 @@
+/*
+ * CSS Module for Chat Page
+ * 
+ * Note: Some styles remain inline in the component because they are dynamically calculated:
+ * - Tree node padding (based on nesting level)
+ * - Color swatch backgrounds (from component props)
+ * - Text preview font styles (from computed styles)
+ * - Overlay positioning (in JavaScript functions for DOM manipulation)
+ */
+
+/* Text preview in properties pane */
+.textPreview {
+  font-family: var(--font-family, inherit);
+  font-size: var(--font-size, inherit);
+  font-weight: var(--font-weight, inherit);
+  line-height: var(--line-height, inherit);
+  letter-spacing: var(--letter-spacing, inherit);
+}
+
+/* Code syntax highlighter pre tag */
+.codePre {
+  white-space: pre;
+}
+
+/* Color swatch */
+.colorSwatch {
+  display: inline-block;
+  width: 2.25rem;
+  height: 1.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgb(51 65 85);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.08);
+}
+
+/* Tree node row base styles */
+.treeNodeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.treeNodeRowSelected {
+  background: linear-gradient(to right, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.4), 0 10px 15px -3px rgba(16, 185, 129, 0.1);
+}
+
+.treeNodeRowHover {
+  background: linear-gradient(to right, rgba(51, 65, 85, 0.4), rgba(71, 85, 105, 0.4));
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.treeNodeRowDefault:hover {
+  background: linear-gradient(to right, rgba(51, 65, 85, 0.4), rgba(71, 85, 105, 0.4));
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* File tree row styles (similar to tree node but with blue accent) */
+.fileTreeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fileTreeRowSelected {
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4), 0 10px 15px -3px rgba(59, 130, 246, 0.1);
+}
+
+.fileTreeRowDefault:hover {
+  background: linear-gradient(to right, rgba(51, 65, 85, 0.4), rgba(71, 85, 105, 0.4));
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Text preview container */
+.textPreviewContainer {
+  border-radius: 0.5rem;
+  border: 1px solid rgba(71, 85, 105, 0.5);
+  background: linear-gradient(to right, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.6));
+  padding: 1rem;
+  color: rgb(241, 245, 249);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+}
+
+/* Overlay base styles (for dynamically created overlays) */
+.overlayBase {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2147483647;
+  border-radius: 6px;
+}
+
+.overlayHidden {
+  width: 0;
+  height: 0;
+  transform: translate(-9999px, -9999px);
+}
+
+/* Tree node expand/collapse button */
+.treeNodeToggle {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.375rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(71, 85, 105, 0.5);
+  background: linear-gradient(to bottom right, rgba(51, 65, 85, 0.8), rgba(71, 85, 105, 0.8));
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+  color: rgb(203, 213, 225);
+}
+
+.treeNodeToggle:hover {
+  background: linear-gradient(to bottom right, rgba(71, 85, 105, 0.8), rgba(100, 116, 139, 0.8));
+  color: white;
+}
+
+/* Panel header styles */
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: rgb(241, 245, 249);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  background: linear-gradient(to right, rgba(30, 41, 59, 0.8), rgba(51, 65, 85, 0.7));
+  backdrop-filter: blur(8px);
+}
+
+.panelHeaderIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.panelHeaderTitle {
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+/* Tab navigation styles */
+.tabContainer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tab {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.tabActive {
+  background: linear-gradient(to right, rgb(59, 130, 246), rgb(37, 99, 235));
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.25);
+}
+
+.tabInactive {
+  color: rgb(203, 213, 225);
+}
+
+.tabInactive:hover {
+  color: white;
+  background: rgba(51, 65, 85, 0.5);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.tabActiveEmerald {
+  background: linear-gradient(to right, rgb(16, 185, 129), rgb(5, 150, 105));
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.25);
+}
+
+/* Chat input and button styles */
+.chatInput {
+  flex: 1;
+  border-radius: 0.75rem;
+  background: rgba(30, 41, 59, 0.6);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  color: rgb(241, 245, 249);
+}
+
+.chatInput:focus {
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+}
+
+.chatInput::placeholder {
+  color: rgb(148, 163, 184);
+}
+
+.chatSendButton {
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.chatSendButtonEnabled {
+  background: linear-gradient(to right, rgb(168, 85, 247), rgb(147, 51, 234));
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.25);
+}
+
+.chatSendButtonEnabled:hover {
+  background: linear-gradient(to right, rgb(192, 132, 252), rgb(168, 85, 247));
+  box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.4);
+}
+
+.chatSendButtonDisabled {
+  background: rgb(30, 41, 59);
+  color: rgb(100, 116, 139);
+  cursor: not-allowed;
+}
+
+/* Empty state styles */
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: rgb(148, 163, 184);
+}
+
+.emptyStateContent {
+  text-align: center;
+}
+
+.emptyStateIcon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.6;
+}
+
+.emptyStateTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.emptyStateSubtitle {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  opacity: 0.7;
+}
+
+/* Trace console scrollable content */
+.traceScrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
+}
+
+/* Properties pane scrollable content */
+.propertiesScrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
+}
+
+/* Components panel scrollable content */
+.componentsScrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
+}
+
+/* File tree panel scrollable content */
+.fileTreeScrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
+}
+
+/* Code view scrollable content */
+.codeScrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
+}
+
+/* Chat messages scrollable content */
+.chatScrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
+}
+
+/* Main grid layout */
+.mainGrid {
+  grid-template-rows: 1fr 240px;
+  grid-template-columns: minmax(320px, 400px) 1fr minmax(300px, 400px);
+  gap: 16px;
+}

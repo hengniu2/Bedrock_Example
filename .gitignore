@@ -1,0 +1,4 @@
+.env
+planner/__pycache__
+node_modules
+web/.env.local
