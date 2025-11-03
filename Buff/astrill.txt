@@ -1,0 +1,11 @@
+bh418v@gmail.com
+astrillpwdPWD
+
+internet speed
+netsh interface ipv4 set subinterface Ethernet mtu=1400 store=persistent
+
+astrill dns address
+158.255.2.8
+
+
+

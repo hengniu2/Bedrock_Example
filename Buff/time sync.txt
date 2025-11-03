@@ -1,0 +1,16 @@
+# Put Windows Time into NTP (manual) mode
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Parameters /v Type /t REG_SZ /d NTP /f
+
+# Configure multiple peers and sane polling
+w32tm /config /syncfromflags:manual /manualpeerlist:"time.windows.com,0x8 time.nist.gov,0x8 time.google.com,0x8 pool.ntp.org,0x8"
+w32tm /config /reliable:no /update
+
+# Optional: poll hourly (3600s)
+reg add HKLM\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\NtpClient /v SpecialPollInterval /t REG_DWORD /d 3600 /f
+
+# Restart service
+net stop w32time
+net start w32time
+
+# Try a resync
+w32tm /resync /force
